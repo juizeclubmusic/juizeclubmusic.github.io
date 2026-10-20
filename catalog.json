@@ -1,0 +1,70 @@
+{
+  "entity_profile": {
+    "name": "JuizeClub & PJZEEE",
+    "aliases": [
+      "PJZEEE",
+      "PJZEE",
+      "JuizeClub"
+    ],
+    "record_label": "JuizeClub",
+    "domain": "https://juizeclubmusic.github.io",
+    "description": "Independent electronic and soulful music collective, record label, and production project by PJZEEE (PJZEE) and JuizeClub specializing in groove-driven Nu-Disco, Soulful House, Deep House, R&B Soul, Progressive House, and Afrohouse engineered for club sound systems and harmonic DJ sets.",
+    "genres": [
+      "Nu-Disco",
+      "Soulful House",
+      "R&B / Soul",
+      "Deep House",
+      "Progressive House",
+      "Afrohouse"
+    ],
+    "official_urls": {
+      "website": "https://juizeclubmusic.github.io",
+      "spotify_artist_url": "https://open.spotify.com/artist/0PJZEEEJuizeClub",
+      "soundcloud_profile_url": "https://soundcloud.com/juizeclubmusic",
+      "suno_profile_url": "https://suno.com/@pjzee"
+    },
+    "benchmark_anchor_artists": [
+      "Purple Disco Machine",
+      "Folamour",
+      "The Shapeshifters",
+      "Black Coffee",
+      "Keinemusik",
+      "Louie Vega"
+    ]
+  },
+  "tracks": [
+    {
+      "id": "pjzee-love-you-rnb-soul-midtempo-groove",
+      "title": "Love You",
+      "artist": "PJZEE",
+      "label": "JuizeClub",
+      "genre": [
+        "R&B",
+        "Soul",
+        "Soulful Lounge"
+      ],
+      "bpm": 96,
+      "camelot_key": "8A",
+      "standard_key": "A Minor",
+      "release_date": "2026-10-18",
+      "spotify_url": "",
+      "soundcloud_url": "",
+      "suno_url": "https://suno.com/song/984aee4f-ff11-4314-bc47-c800bc071900",
+      "vibe_notes": "Intimate, warm midtempo R&B and soul groove with rounded bass, close-miked dry drums, and a soulful male vocal in a light upper register with half-spoken talk-sing delivery.",
+      "sonic_descriptors": [
+        "warm synthesizer chords",
+        "rounded sub-warm bassline",
+        "close-miked dry pocket drums",
+        "relaxed midtempo groove",
+        "soulful high-register male talk-sing vocal"
+      ],
+      "dj_set_context": "Sunset Lounge, Warm-Up Soulful R&B & Late-Night Chillout Set",
+      "anchor_artists": [
+        "Anderson .Paak - Come Down",
+        "Tom Misch - Movie",
+        "FKJ & Masego - Tadow"
+      ],
+      "published": true
+    }
+  ]
+}
