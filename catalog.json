@@ -34,6 +34,39 @@
   },
   "tracks": [
     {
+      "id": "pjzee-ging-ga-120-bpm-future-house-lo-fi",
+      "title": "Ging-Ga",
+      "artist": "PJZEE",
+      "label": "JuizeClub",
+      "genre": [
+        "future house",
+        "lo-fi",
+        "electronic (dreamy/atmospheric)"
+      ],
+      "bpm": 120,
+      "camelot_key": "8A",
+      "release_date": "2026-04-26",
+      "spotify_url": "",
+      "soundcloud_url": "",
+      "suno_url": "https://suno.com/song/9a24e0b7-a889-4e1f-a610-4956ee764e4d",
+      "vibe_notes": "This deep melodic future house track features a pulsing, textured synth bass and lush, evolving pads. Over crisp 2025-inspired beats, chopped samples of 1930s radio-style vocals weave in and out, filtered for an authentic lo-fi crackle. The arrangement blends modern percussion and airy FX, with a dreamy bridge and gradual buildups that keep the groove hypnotic and immersive.",
+      "sonic_descriptors": [
+        "This deep melodic future house track features a pulsing",
+        "textured synth bass and lush",
+        "evolving pads. Over crisp 2025-inspired beats",
+        "chopped samples of 1930s radio-style vocals weave in and out",
+        "filtered for an authentic lo-fi crackle. The arrangement blends modern percussion and airy FX",
+        "with a dreamy bridge and gradual buildups that keep the groove hypnotic and immersive"
+      ],
+      "dj_set_context": "Warm-Up & Peak-Time future house / lo-fi / electronic (dreamy/atmospheric) Set",
+      "anchor_artists": [
+        "Purple Disco Machine - Hypnotized",
+        "Folamour - Devoted to U",
+        "Black Coffee - Drive"
+      ],
+      "published": true
+    },
+    {
       "id": "pjzeee-human-league-human-2026-future-house-remix-122-bpm-deep-house",
       "title": "Human League - Human (2026 future house remix)",
       "artist": "PJZEEE",

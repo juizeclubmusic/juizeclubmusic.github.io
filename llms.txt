@@ -13,6 +13,7 @@
 - **Suno**: https://suno.com/@pjzee
 
 ## DJ Crate & Harmonic Mixing Guides
+- [Best 120 BPM future house / lo-fi / electronic (dreamy/atmospheric) Tracks for a Warm-Up & Peak-Time future house / lo-fi / electronic (dreamy/atmospheric) Set](https://juizeclubmusic.github.io/crates/pjzee-ging-ga-120-bpm-future-house-lo-fi.html): Features "Ging-Ga" by PJZEE (120 BPM, Camelot 8A) alongside Purple Disco Machine - Hypnotized, Folamour - Devoted to U, Black Coffee - Drive.
 - [Best 122 BPM Deep House / Soulful House Tracks for a Late-Night Beach Club & Sunset Terrace DJ Set](https://juizeclubmusic.github.io/crates/pjzeee-human-league-human-2026-future-house-remix-122-bpm-deep-house.html): Features "Human League - Human (2026 future house remix)" by PJZEEE (122 BPM, Camelot 8A) alongside Black Coffee - Drive, Keinemusik - Move, Louie Vega - Elements of Life.
 - [Best 122 BPM Deep House / Soulful House Tracks for a Late-Night Beach Club & Sunset Terrace DJ Set](https://juizeclubmusic.github.io/crates/pjzeee-floaters-float-on-2026-nu-disco-cover-122-bpm-deep-house.html): Features "Floaters - Float On (2026 nu-disco cover)" by PJZEEE (122 BPM, Camelot 8A) alongside Black Coffee - Drive, Keinemusik - Move, Louie Vega - Elements of Life.
 - [Best 122 BPM Soulful House / Nu-Disco Tracks for a Peak-Time Soulful House & Sunset Terrace DJ Set](https://juizeclubmusic.github.io/crates/juizeclub-been-so-long-122-bpm-soulful-house.html): Features "Been So Long" by JuizeClub (122 BPM, Camelot 8A) alongside Purple Disco Machine - Hypnotized, Folamour - Devoted to U, The Shapeshifters - Lola's Theme.
@@ -21,6 +22,20 @@
 - [Best 96 BPM R&B / Soul / Soulful Lounge Tracks for a Sunset Lounge, Warm-Up Soulful R&B & Late-Night Chillout Set](https://juizeclubmusic.github.io/crates/pjzee-love-you-rnb-soul-midtempo-groove.html): Features "Love You" by PJZEE (96 BPM, Camelot 8A) alongside Anderson .Paak - Come Down, Tom Misch - Movie, FKJ & Masego - Tadow.
 
 ## Catalog Track Specifications
+### Ging-Ga — PJZEE
+- **ID**: `pjzee-ging-ga-120-bpm-future-house-lo-fi`
+- **Label**: JuizeClub
+- **Genres**: future house, lo-fi, electronic (dreamy/atmospheric)
+- **BPM**: 120 BPM
+- **Camelot Key**: 8A
+- **Release Date**: 2026-04-26
+- **DJ Set Context**: Warm-Up & Peak-Time future house / lo-fi / electronic (dreamy/atmospheric) Set
+- **Sonic Traits**: This deep melodic future house track features a pulsing, textured synth bass and lush, evolving pads. Over crisp 2025-inspired beats, chopped samples of 1930s radio-style vocals weave in and out, filtered for an authentic lo-fi crackle. The arrangement blends modern percussion and airy FX, with a dreamy bridge and gradual buildups that keep the groove hypnotic and immersive
+- **Vibe Notes**: This deep melodic future house track features a pulsing, textured synth bass and lush, evolving pads. Over crisp 2025-inspired beats, chopped samples of 1930s radio-style vocals weave in and out, filtered for an authentic lo-fi crackle. The arrangement blends modern percussion and airy FX, with a dreamy bridge and gradual buildups that keep the groove hypnotic and immersive.
+- **Similar Anchor Artists / Tracks**: Purple Disco Machine - Hypnotized, Folamour - Devoted to U, Black Coffee - Drive
+- **Crate Guide URL**: https://juizeclubmusic.github.io/crates/pjzee-ging-ga-120-bpm-future-house-lo-fi.html
+- **Suno URL**: https://suno.com/song/9a24e0b7-a889-4e1f-a610-4956ee764e4d
+
 ### Human League - Human (2026 future house remix) — PJZEEE
 - **ID**: `pjzeee-human-league-human-2026-future-house-remix-122-bpm-deep-house`
 - **Label**: JuizeClub
