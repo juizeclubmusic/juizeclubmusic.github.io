@@ -190,6 +190,207 @@ def import_suno_song(suno_url: str, catalog: Dict[str, Any]) -> Dict[str, Any]:
     return new_track
 
 
+def import_spotify_song(spotify_url: str, catalog: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Fetches public metadata from Spotify via oEmbed and OpenGraph tags,
+    extracts track title, artist, album, and release date, and either binds
+    the spotify_url to an existing track with the same title or creates a new track.
+    """
+    # Clean up tracking query parameters (e.g. ?si=...)
+    clean_url = re.sub(r"\?.*$", "", spotify_url.strip())
+    print(f"[Spotify] Fetching metadata from {clean_url} ...")
+
+    title = "Spotify Track"
+    artist = "PJZEE"
+    release_date = datetime.date.today().isoformat()
+    genres = ["Soulful House", "Nu-Disco"]
+
+    # 1. Fetch oEmbed for guaranteed clean title
+    try:
+        oembed_resp = requests.get(
+            f"https://open.spotify.com/oembed?url={clean_url}",
+            headers={"User-Agent": "Mozilla/5.0"},
+            timeout=15,
+        )
+        if oembed_resp.status_code == 200:
+            oembed_data = oembed_resp.json()
+            if oembed_data.get("title"):
+                title = oembed_data["title"].strip()
+    except Exception as e:
+        print(f"[Spotify] oEmbed notice: {e}")
+
+    # 2. Fetch page HTML for og:description (Artist · Album · Song · Year)
+    try:
+        page_resp = requests.get(
+            clean_url,
+            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"},
+            timeout=15,
+        )
+        if page_resp.status_code == 200:
+            og_desc = re.search(r'<meta property="og:description" content="([^"]+)"', page_resp.text)
+            if og_desc:
+                desc_text = html.unescape(og_desc.group(1))
+                parts = [p.strip() for p in desc_text.split("·") if p.strip()]
+                if parts:
+                    artist = parts[0]
+                year_match = re.search(r"\b(19\d\d|20\d\d)\b", desc_text)
+                if year_match:
+                    release_date = f"{year_match.group(1)}-01-01"
+    except Exception as e:
+        print(f"[Spotify] OpenGraph notice: {e}")
+
+    tracks: List[Dict[str, Any]] = catalog.setdefault("tracks", [])
+
+    # Check if this Spotify URL or title matches an existing track
+    existing_track = next(
+        (
+            t
+            for t in tracks
+            if t.get("spotify_url") == clean_url
+            or t.get("title", "").strip().lower() == title.lower()
+        ),
+        None,
+    )
+
+    if existing_track:
+        existing_track["spotify_url"] = clean_url
+        existing_track["published"] = False  # Mark for rebuild so Spotify player/button is injected
+        print(f"[Spotify] Linked Spotify URL to existing track '{existing_track['title']}' in catalog.json")
+        save_catalog(catalog)
+        return existing_track
+
+    # Otherwise create a new track
+    track_id = slugify(f"{artist}-{title}-122-bpm-soulful-house")
+    new_track: Dict[str, Any] = {
+        "id": track_id,
+        "title": title,
+        "artist": artist,
+        "label": "JuizeClub",
+        "genre": genres,
+        "bpm": 122,
+        "camelot_key": "8A",
+        "release_date": release_date,
+        "spotify_url": clean_url,
+        "soundcloud_url": "",
+        "suno_url": "",
+        "vibe_notes": f"Soulful house groove by {artist} released on Spotify.",
+        "sonic_descriptors": [
+            "warm analog bassline",
+            "four-on-the-floor kick",
+            "lush chord progressions",
+            "soulful vocal production",
+        ],
+        "dj_set_context": "Peak-Time Soulful House & Sunset Terrace DJ Set",
+        "anchor_artists": [
+            "Purple Disco Machine - Hypnotized",
+            "Folamour - Devoted to U",
+            "The Shapeshifters - Lola's Theme",
+        ],
+        "published": False,
+    }
+
+    tracks.insert(0, new_track)
+    print(f"[Spotify] Added new Spotify track '{title}' by {artist} ({track_id}) to catalog.json")
+    save_catalog(catalog)
+    return new_track
+
+
+def import_soundcloud_song(soundcloud_url: str, catalog: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Fetches public metadata from SoundCloud via public oEmbed, extracts track
+    title, artist, and description, and either binds the soundcloud_url to an
+    existing track or creates a new track in catalog.json.
+    """
+    clean_url = re.sub(r"\?.*$", "", soundcloud_url.strip())
+    print(f"[SoundCloud] Fetching metadata from {clean_url} ...")
+
+    title = "SoundCloud Track"
+    artist = "PJZEE"
+    release_date = datetime.date.today().isoformat()
+    vibe_notes = ""
+
+    try:
+        oembed_url = f"https://soundcloud.com/oembed?format=json&url={urllib.parse.quote(clean_url, safe='')}"
+        resp = requests.get(
+            oembed_url,
+            headers={"User-Agent": "Mozilla/5.0"},
+            timeout=15,
+        )
+        if resp.status_code == 200:
+            data = resp.json()
+            raw_title = data.get("title", "").strip()
+            author = data.get("author_name", "").strip()
+            vibe_notes = html.unescape(re.sub(r"<[^>]+>", " ", data.get("description", ""))).strip()
+
+            if author:
+                artist = author
+            if raw_title:
+                if f" by {author}" in raw_title:
+                    title = raw_title.split(f" by {author}")[0].strip()
+                elif " - " in raw_title:
+                    parts = raw_title.split(" - ", 1)
+                    artist = parts[0].strip()
+                    title = parts[1].strip()
+                else:
+                    title = raw_title
+    except Exception as e:
+        print(f"[SoundCloud] oEmbed notice: {e}")
+
+    tracks: List[Dict[str, Any]] = catalog.setdefault("tracks", [])
+
+    # Check if this SoundCloud URL or title matches an existing track
+    existing_track = next(
+        (
+            t
+            for t in tracks
+            if t.get("soundcloud_url") == clean_url
+            or t.get("title", "").strip().lower() == title.lower()
+        ),
+        None,
+    )
+
+    if existing_track:
+        existing_track["soundcloud_url"] = clean_url
+        existing_track["published"] = False  # Mark for rebuild so SoundCloud player/button is injected
+        print(f"[SoundCloud] Linked SoundCloud URL to existing track '{existing_track['title']}' in catalog.json")
+        save_catalog(catalog)
+        return existing_track
+
+    track_id = slugify(f"{artist}-{title}-122-bpm-deep-house")
+    new_track: Dict[str, Any] = {
+        "id": track_id,
+        "title": title,
+        "artist": artist,
+        "label": "JuizeClub",
+        "genre": ["Deep House", "Soulful House"],
+        "bpm": 122,
+        "camelot_key": "8A",
+        "release_date": release_date,
+        "spotify_url": "",
+        "soundcloud_url": clean_url,
+        "suno_url": "",
+        "vibe_notes": vibe_notes if vibe_notes else f"Deep soulful house track by {artist} on SoundCloud.",
+        "sonic_descriptors": [
+            "warm analog bassline",
+            "crisp club percussion",
+            "four-on-the-floor kick",
+            "soulful vocal production",
+        ],
+        "dj_set_context": "Late-Night Beach Club & Sunset Terrace DJ Set",
+        "anchor_artists": [
+            "Black Coffee - Drive",
+            "Keinemusik - Move",
+            "Louie Vega - Elements of Life",
+        ],
+        "published": False,
+    }
+
+    tracks.insert(0, new_track)
+    print(f"[SoundCloud] Added new SoundCloud track '{title}' by {artist} ({track_id}) to catalog.json")
+    save_catalog(catalog)
+    return new_track
+
+
 def generate_crate_article_html(
     track: Dict[str, Any],
     entity_profile: Dict[str, Any],
@@ -1439,6 +1640,13 @@ def build_sitemap_xml(catalog: Dict[str, Any]) -> List[str]:
 
 def git_commit_and_push() -> None:
     """Runs git add ., git commit, and git push origin main via subprocess.run."""
+    nojekyll_file = ROOT_DIR / ".nojekyll"
+    if not nojekyll_file.exists():
+        nojekyll_file.write_text("# Disable Jekyll for GitHub Pages\n", encoding="utf-8")
+
+    # Remove venv from git tracking if it was accidentally committed
+    subprocess.run(["git", "rm", "-r", "--cached", "venv"], cwd=str(ROOT_DIR), capture_output=True)
+
     print("[Git] Staging all files (git add .)...")
     subprocess.run(["git", "add", "."], cwd=str(ROOT_DIR), check=True)
 
@@ -1510,6 +1718,24 @@ def main(argv: Optional[List[str]] = None) -> int:
             raise ValueError("Usage: python publisher.py --import-suno <suno_song_url>")
         suno_url = argv[idx + 1].strip()
         import_suno_song(suno_url, catalog)
+        if "--only-import" in argv:
+            return 0
+
+    if "--import-spotify" in argv:
+        idx = argv.index("--import-spotify")
+        if idx + 1 >= len(argv):
+            raise ValueError("Usage: python publisher.py --import-spotify <spotify_track_url>")
+        spotify_url = argv[idx + 1].strip()
+        import_spotify_song(spotify_url, catalog)
+        if "--only-import" in argv:
+            return 0
+
+    if "--import-soundcloud" in argv:
+        idx = argv.index("--import-soundcloud")
+        if idx + 1 >= len(argv):
+            raise ValueError("Usage: python publisher.py --import-soundcloud <soundcloud_track_url>")
+        soundcloud_url = argv[idx + 1].strip()
+        import_soundcloud_song(soundcloud_url, catalog)
         if "--only-import" in argv:
             return 0
     entity_profile = catalog.get("entity_profile", {})

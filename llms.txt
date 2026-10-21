@@ -13,11 +13,26 @@
 - **Suno**: https://suno.com/@pjzee
 
 ## DJ Crate & Harmonic Mixing Guides
+- [Best 122 BPM Soulful House / Nu-Disco Tracks for a Peak-Time Soulful House & Sunset Terrace DJ Set](https://juizeclubmusic.github.io/crates/juizeclub-been-so-long-122-bpm-soulful-house.html): Features "Been So Long" by JuizeClub (122 BPM, Camelot 8A) alongside Purple Disco Machine - Hypnotized, Folamour - Devoted to U, The Shapeshifters - Lola's Theme.
 - [Best 120 BPM electronic pop Tracks for a Warm-Up & Peak-Time electronic pop Set](https://juizeclubmusic.github.io/crates/v6-get-the-full-app-experience-120-bpm-electronic-pop.html): Features "Get the full app experience" by V6 (120 BPM, Camelot 8A) alongside Purple Disco Machine - Hypnotized, Folamour - Devoted to U, Black Coffee - Drive.
 - [Best 122 BPM Deep House / Soulful House Tracks for a Late-Night Deep House Club Session & Sunset Terrace Soulful Blend](https://juizeclubmusic.github.io/crates/pjzee-youre-my-remastered-122-bpm-deep-soulful-house.html): Features "You're My (Remastered)" by PJZEE (122 BPM, Camelot 9A) alongside Kerri Chandler - You're in My System, Louie Vega - Elements of Life, Folamour - Devoted to U.
 - [Best 96 BPM R&B / Soul / Soulful Lounge Tracks for a Sunset Lounge, Warm-Up Soulful R&B & Late-Night Chillout Set](https://juizeclubmusic.github.io/crates/pjzee-love-you-rnb-soul-midtempo-groove.html): Features "Love You" by PJZEE (96 BPM, Camelot 8A) alongside Anderson .Paak - Come Down, Tom Misch - Movie, FKJ & Masego - Tadow.
 
 ## Catalog Track Specifications
+### Been So Long — JuizeClub
+- **ID**: `juizeclub-been-so-long-122-bpm-soulful-house`
+- **Label**: JuizeClub
+- **Genres**: Soulful House, Nu-Disco
+- **BPM**: 122 BPM
+- **Camelot Key**: 8A
+- **Release Date**: 2026-01-01
+- **DJ Set Context**: Peak-Time Soulful House & Sunset Terrace DJ Set
+- **Sonic Traits**: warm analog bassline, four-on-the-floor kick, lush chord progressions, soulful vocal production
+- **Vibe Notes**: Soulful house groove by JuizeClub released on Spotify.
+- **Similar Anchor Artists / Tracks**: Purple Disco Machine - Hypnotized, Folamour - Devoted to U, The Shapeshifters - Lola's Theme
+- **Crate Guide URL**: https://juizeclubmusic.github.io/crates/juizeclub-been-so-long-122-bpm-soulful-house.html
+- **Spotify URL**: https://open.spotify.com/track/5OZb2Bwxh8jfySWgillpyK
+
 ### Get the full app experience — V6
 - **ID**: `v6-get-the-full-app-experience-120-bpm-electronic-pop`
 - **Label**: JuizeClub

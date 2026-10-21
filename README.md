@@ -23,6 +23,21 @@ Processes only tracks in `catalog.json` where `"published": false`, generates `c
 python publisher.py
 ```
 
+### 1-Command Auto-Import from Suno or Spotify
+To automatically scrape song metadata from Suno or Spotify, generate the crate guide, embed the player, and publish live:
+
+```bash
+# Auto-import from Suno and publish:
+python publisher.py --import-suno https://suno.com/song/YOUR_SUNO_UUID
+
+# Auto-import from Spotify (or link Spotify URL to an existing track) and publish:
+python publisher.py --import-spotify https://open.spotify.com/track/YOUR_SPOTIFY_ID
+
+# Auto-import from SoundCloud (or link SoundCloud URL to an existing track) and publish:
+python publisher.py --import-soundcloud https://soundcloud.com/YOUR_ARTIST/YOUR_TRACK_SLUG
+```
+*(Add `--only-import` to add the track to `catalog.json` without immediately building or publishing).*
+
 ### Rebuild All Tracks
 Forces regeneration of all crate HTML guides in `catalog.json` regardless of their `published` status:
 
