@@ -34,6 +34,36 @@
   },
   "tracks": [
     {
+      "id": "pjzeee-human-league-human-2026-future-house-remix-122-bpm-deep-house",
+      "title": "Human League - Human (2026 future house remix)",
+      "artist": "PJZEEE",
+      "label": "JuizeClub",
+      "genre": [
+        "Deep House",
+        "Soulful House"
+      ],
+      "bpm": 122,
+      "camelot_key": "8A",
+      "release_date": "2026-10-21",
+      "spotify_url": "",
+      "soundcloud_url": "https://soundcloud.com/pjzeee/human",
+      "suno_url": "",
+      "vibe_notes": "2026 future house remix of the Human League song 'Human' from the '80s",
+      "sonic_descriptors": [
+        "warm analog bassline",
+        "crisp club percussion",
+        "four-on-the-floor kick",
+        "soulful vocal production"
+      ],
+      "dj_set_context": "Late-Night Beach Club & Sunset Terrace DJ Set",
+      "anchor_artists": [
+        "Black Coffee - Drive",
+        "Keinemusik - Move",
+        "Louie Vega - Elements of Life"
+      ],
+      "published": true
+    },
+    {
       "id": "pjzeee-floaters-float-on-2026-nu-disco-cover-122-bpm-deep-house",
       "title": "Floaters - Float On (2026 nu-disco cover)",
       "artist": "PJZEEE",

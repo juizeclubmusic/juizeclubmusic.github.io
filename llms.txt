@@ -13,6 +13,7 @@
 - **Suno**: https://suno.com/@pjzee
 
 ## DJ Crate & Harmonic Mixing Guides
+- [Best 122 BPM Deep House / Soulful House Tracks for a Late-Night Beach Club & Sunset Terrace DJ Set](https://juizeclubmusic.github.io/crates/pjzeee-human-league-human-2026-future-house-remix-122-bpm-deep-house.html): Features "Human League - Human (2026 future house remix)" by PJZEEE (122 BPM, Camelot 8A) alongside Black Coffee - Drive, Keinemusik - Move, Louie Vega - Elements of Life.
 - [Best 122 BPM Deep House / Soulful House Tracks for a Late-Night Beach Club & Sunset Terrace DJ Set](https://juizeclubmusic.github.io/crates/pjzeee-floaters-float-on-2026-nu-disco-cover-122-bpm-deep-house.html): Features "Floaters - Float On (2026 nu-disco cover)" by PJZEEE (122 BPM, Camelot 8A) alongside Black Coffee - Drive, Keinemusik - Move, Louie Vega - Elements of Life.
 - [Best 122 BPM Soulful House / Nu-Disco Tracks for a Peak-Time Soulful House & Sunset Terrace DJ Set](https://juizeclubmusic.github.io/crates/juizeclub-been-so-long-122-bpm-soulful-house.html): Features "Been So Long" by JuizeClub (122 BPM, Camelot 8A) alongside Purple Disco Machine - Hypnotized, Folamour - Devoted to U, The Shapeshifters - Lola's Theme.
 - [Best 120 BPM electronic pop Tracks for a Warm-Up & Peak-Time electronic pop Set](https://juizeclubmusic.github.io/crates/pjzee-dont-you-forget-120-bpm-electronic-pop.html): Features "Don't You Forget" by PJZEE (120 BPM, Camelot 8A) alongside Purple Disco Machine - Hypnotized, Folamour - Devoted to U, Black Coffee - Drive.
@@ -20,6 +21,20 @@
 - [Best 96 BPM R&B / Soul / Soulful Lounge Tracks for a Sunset Lounge, Warm-Up Soulful R&B & Late-Night Chillout Set](https://juizeclubmusic.github.io/crates/pjzee-love-you-rnb-soul-midtempo-groove.html): Features "Love You" by PJZEE (96 BPM, Camelot 8A) alongside Anderson .Paak - Come Down, Tom Misch - Movie, FKJ & Masego - Tadow.
 
 ## Catalog Track Specifications
+### Human League - Human (2026 future house remix) — PJZEEE
+- **ID**: `pjzeee-human-league-human-2026-future-house-remix-122-bpm-deep-house`
+- **Label**: JuizeClub
+- **Genres**: Deep House, Soulful House
+- **BPM**: 122 BPM
+- **Camelot Key**: 8A
+- **Release Date**: 2026-10-21
+- **DJ Set Context**: Late-Night Beach Club & Sunset Terrace DJ Set
+- **Sonic Traits**: warm analog bassline, crisp club percussion, four-on-the-floor kick, soulful vocal production
+- **Vibe Notes**: 2026 future house remix of the Human League song 'Human' from the '80s
+- **Similar Anchor Artists / Tracks**: Black Coffee - Drive, Keinemusik - Move, Louie Vega - Elements of Life
+- **Crate Guide URL**: https://juizeclubmusic.github.io/crates/pjzeee-human-league-human-2026-future-house-remix-122-bpm-deep-house.html
+- **SoundCloud URL**: https://soundcloud.com/pjzeee/human
+
 ### Floaters - Float On (2026 nu-disco cover) — PJZEEE
 - **ID**: `pjzeee-floaters-float-on-2026-nu-disco-cover-122-bpm-deep-house`
 - **Label**: JuizeClub
