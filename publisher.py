@@ -98,24 +98,57 @@ def import_suno_song(suno_url: str, catalog: Dict[str, Any]) -> Dict[str, Any]:
     resp.raise_for_status()
     page_html = resp.text
 
-    title = "Untitled Track"
-    artist = "PJZEEE"
+    title = ""
+    artist = "PJZEE"
     release_date = datetime.date.today().isoformat()
-    display_tags = "Nu-Disco, Soulful House"
+    display_tags = "Soulful House, Nu-Disco"
     style_tags = ""
 
-    # Try extracting from Next.js dehydrated clip state
-    title_match = re.search(r'\\"title\\":\\"([^"\\]+)\\"', page_html)
-    if title_match:
-        title = title_match.group(1)
-    else:
-        og_title = re.search(r'<meta property="og:title" content="([^"]+)"', page_html)
-        if og_title:
-            title = html.unescape(og_title.group(1))
+    # 1. Primary: Extract title from OpenGraph meta tag (guaranteed clean song title on Suno)
+    og_title_match = re.search(r'<meta\s+property=["\']og:title["\']\s+content=["\']([^"\']+)["\']', page_html, re.IGNORECASE)
+    if not og_title_match:
+        og_title_match = re.search(r'<meta\s+content=["\']([^"\']+)["\']\s+property=["\']og:title["\']', page_html, re.IGNORECASE)
+    if og_title_match:
+        cand_title = html.unescape(og_title_match.group(1)).strip()
+        if cand_title and not cand_title.lower().startswith("get the full app") and cand_title.lower() != "suno":
+            title = cand_title
 
-    artist_match = re.search(r'\\"display_name\\":\\"([^"\\]+)\\"', page_html)
-    if artist_match:
-        artist = artist_match.group(1)
+    # 2. Extract artist and fallback title from <title> tag ("Song Title by Artist | Suno")
+    title_tag_match = re.search(r'<title>(.*?)\s+by\s+(.*?)\s*\|\s*Suno</title>', page_html, re.IGNORECASE)
+    if title_tag_match:
+        if not title:
+            cand_title = html.unescape(title_tag_match.group(1)).strip()
+            if not cand_title.lower().startswith("get the full app"):
+                title = cand_title
+        cand_artist = html.unescape(title_tag_match.group(2)).strip()
+        if cand_artist and cand_artist not in ["V6", "V5.5", "V5", "V4", "V3", "V2"]:
+            artist = cand_artist
+
+    # 3. Extract artist from meta description ("... by Artist (@handle)...")
+    desc_match = re.search(r'<meta\s+name=["\']description["\']\s+content=["\'].*?\s+by\s+(.*?)\s+\(@', page_html, re.IGNORECASE)
+    if desc_match:
+        cand_artist = html.unescape(desc_match.group(1)).strip()
+        if cand_artist and cand_artist not in ["V6", "V5.5", "V5", "V4", "V3", "V2"]:
+            artist = cand_artist
+
+    # 4. Fallback to Suno user JSON (strictly requiring user_id context to avoid model_badges display_name="V6")
+    if not artist or artist in ["V6", "V5.5", "V5", "V4", "V3", "V2"]:
+        user_match = re.search(r'\\"user_id\\":\\"[^"\\]+\\",\\"display_name\\":\\"([^"\\]+)\\"', page_html)
+        if user_match:
+            cand_artist = user_match.group(1)
+            if cand_artist not in ["V6", "V5.5", "V5", "V4", "V3", "V2"]:
+                artist = cand_artist
+
+    # Fallback to clip JSON title if still empty
+    if not title:
+        clip_title_match = re.search(r'\\"state\\":\{\\"data\\":\{[^}]*?\\"title\\":\\"([^"\\]+)\\"', page_html)
+        if clip_title_match:
+            cand_title = clip_title_match.group(1)
+            if not cand_title.lower().startswith("get the full app"):
+                title = cand_title
+
+    if not title:
+        title = "Untitled Track"
 
     date_match = re.search(r'\\"created_at\\":\\"(\d{4}-\d{2}-\d{2})T', page_html)
     if date_match:
@@ -1712,6 +1745,13 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     catalog = load_catalog()
 
+    rebuild_track_query: Optional[str] = None
+    if "--rebuild-track" in argv:
+        idx = argv.index("--rebuild-track")
+        if idx + 1 >= len(argv):
+            raise ValueError("Usage: python publisher.py --rebuild-track <track_id_or_keyword>")
+        rebuild_track_query = argv[idx + 1].strip().lower()
+
     if "--import-suno" in argv:
         idx = argv.index("--import-suno")
         if idx + 1 >= len(argv):
@@ -1741,9 +1781,24 @@ def main(argv: Optional[List[str]] = None) -> int:
     entity_profile = catalog.get("entity_profile", {})
     tracks: List[Dict[str, Any]] = catalog.get("tracks", [])
 
-    tracks_to_process = [
-        t for t in tracks if rebuild_all or not bool(t.get("published", False))
-    ]
+    if rebuild_track_query:
+        tracks_to_process = [
+            t for t in tracks
+            if rebuild_track_query in t.get("id", "").lower()
+            or rebuild_track_query in t.get("title", "").lower()
+        ]
+        if not tracks_to_process:
+            print(f"[Catalog] No tracks matched query '{rebuild_track_query}'. Available tracks:")
+            for t in tracks:
+                print(f"  - {t.get('id')}: {t.get('title')}")
+            return 1
+        print(f"[Catalog] Target rebuild for {len(tracks_to_process)} track(s): {[t['title'] for t in tracks_to_process]}")
+    elif rebuild_all:
+        tracks_to_process = list(tracks)
+    else:
+        tracks_to_process = [
+            t for t in tracks if not bool(t.get("published", False))
+        ]
 
     updated_crate_urls: List[str] = []
 

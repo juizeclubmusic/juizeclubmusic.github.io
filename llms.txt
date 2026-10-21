@@ -15,7 +15,7 @@
 ## DJ Crate & Harmonic Mixing Guides
 - [Best 122 BPM Deep House / Soulful House Tracks for a Late-Night Beach Club & Sunset Terrace DJ Set](https://juizeclubmusic.github.io/crates/pjzeee-floaters-float-on-2026-nu-disco-cover-122-bpm-deep-house.html): Features "Floaters - Float On (2026 nu-disco cover)" by PJZEEE (122 BPM, Camelot 8A) alongside Black Coffee - Drive, Keinemusik - Move, Louie Vega - Elements of Life.
 - [Best 122 BPM Soulful House / Nu-Disco Tracks for a Peak-Time Soulful House & Sunset Terrace DJ Set](https://juizeclubmusic.github.io/crates/juizeclub-been-so-long-122-bpm-soulful-house.html): Features "Been So Long" by JuizeClub (122 BPM, Camelot 8A) alongside Purple Disco Machine - Hypnotized, Folamour - Devoted to U, The Shapeshifters - Lola's Theme.
-- [Best 120 BPM electronic pop Tracks for a Warm-Up & Peak-Time electronic pop Set](https://juizeclubmusic.github.io/crates/v6-get-the-full-app-experience-120-bpm-electronic-pop.html): Features "Get the full app experience" by V6 (120 BPM, Camelot 8A) alongside Purple Disco Machine - Hypnotized, Folamour - Devoted to U, Black Coffee - Drive.
+- [Best 120 BPM electronic pop Tracks for a Warm-Up & Peak-Time electronic pop Set](https://juizeclubmusic.github.io/crates/pjzee-dont-you-forget-120-bpm-electronic-pop.html): Features "Don't You Forget" by PJZEE (120 BPM, Camelot 8A) alongside Purple Disco Machine - Hypnotized, Folamour - Devoted to U, Black Coffee - Drive.
 - [Best 122 BPM Deep House / Soulful House Tracks for a Late-Night Deep House Club Session & Sunset Terrace Soulful Blend](https://juizeclubmusic.github.io/crates/pjzee-youre-my-remastered-122-bpm-deep-soulful-house.html): Features "You're My (Remastered)" by PJZEE (122 BPM, Camelot 9A) alongside Kerri Chandler - You're in My System, Louie Vega - Elements of Life, Folamour - Devoted to U.
 - [Best 96 BPM R&B / Soul / Soulful Lounge Tracks for a Sunset Lounge, Warm-Up Soulful R&B & Late-Night Chillout Set](https://juizeclubmusic.github.io/crates/pjzee-love-you-rnb-soul-midtempo-groove.html): Features "Love You" by PJZEE (96 BPM, Camelot 8A) alongside Anderson .Paak - Come Down, Tom Misch - Movie, FKJ & Masego - Tadow.
 
@@ -48,8 +48,8 @@
 - **Crate Guide URL**: https://juizeclubmusic.github.io/crates/juizeclub-been-so-long-122-bpm-soulful-house.html
 - **Spotify URL**: https://open.spotify.com/track/5OZb2Bwxh8jfySWgillpyK
 
-### Get the full app experience — V6
-- **ID**: `v6-get-the-full-app-experience-120-bpm-electronic-pop`
+### Don't You Forget — PJZEE
+- **ID**: `pjzee-dont-you-forget-120-bpm-electronic-pop`
 - **Label**: JuizeClub
 - **Genres**: electronic pop
 - **BPM**: 120 BPM
@@ -59,7 +59,7 @@
 - **Sonic Traits**: Tape-saturated, polished electronic pop; driving low-end groove at a midtempo pace; intimate, restrained lead vocal with recurring chopped vocal hooks; warm Rhodes electric piano chords, deep sub-bass, and a tight kick that strips back in the bridge before returning for the fade
 - **Vibe Notes**: Tape-saturated, polished electronic pop; driving low-end groove at a midtempo pace; intimate, restrained lead vocal with recurring chopped vocal hooks; warm Rhodes electric piano chords, deep sub-bass, and a tight kick that strips back in the bridge before returning for the fade.
 - **Similar Anchor Artists / Tracks**: Purple Disco Machine - Hypnotized, Folamour - Devoted to U, Black Coffee - Drive
-- **Crate Guide URL**: https://juizeclubmusic.github.io/crates/v6-get-the-full-app-experience-120-bpm-electronic-pop.html
+- **Crate Guide URL**: https://juizeclubmusic.github.io/crates/pjzee-dont-you-forget-120-bpm-electronic-pop.html
 - **Suno URL**: https://suno.com/song/472b4578-981b-4545-b8d7-5b694aae67ff
 
 ### You're My (Remastered) — PJZEE

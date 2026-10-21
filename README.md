@@ -45,6 +45,13 @@ Forces regeneration of all crate HTML guides in `catalog.json` regardless of the
 python publisher.py --rebuild-all
 ```
 
+### Rebuild Only One Specific Track (Fast)
+To regenerate only a single track (by title keyword or track id) without re-running the entire catalog:
+
+```bash
+python publisher.py --rebuild-track "Don't You Forget"
+```
+
 ### Local Dry Run (Skip Git & IndexNow)
 To generate and inspect static files locally without running `git commit`/`git push` or calling the IndexNow endpoint:
 
