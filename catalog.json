@@ -34,6 +34,39 @@
   },
   "tracks": [
     {
+      "id": "pjzee-youre-my-remastered-122-bpm-deep-soulful-house",
+      "title": "You're My (Remastered)",
+      "artist": "PJZEE",
+      "label": "JuizeClub",
+      "genre": [
+        "Deep House",
+        "Soulful House"
+      ],
+      "bpm": 122,
+      "camelot_key": "9A",
+      "standard_key": "E Minor",
+      "release_date": "2026-06-05",
+      "spotify_url": "",
+      "soundcloud_url": "",
+      "suno_url": "https://suno.com/song/d0de9f60-0274-4129-8e6a-4ae29d3fa00c",
+      "vibe_notes": "Deep soulful house groove with driving four-on-the-floor kick, syncopated percussion, warm analog bass, lush Rhodes keys, and an intimate contralto vocal.",
+      "sonic_descriptors": [
+        "driving four-on-the-floor kick",
+        "syncopated Latin-influenced percussion",
+        "warm analog bassline",
+        "lush Rhodes electric piano keys",
+        "intimate contralto dry vocal glide",
+        "subtle melodic guitar licks and airy pads"
+      ],
+      "dj_set_context": "Late-Night Deep House Club Session & Sunset Terrace Soulful Blend",
+      "anchor_artists": [
+        "Kerri Chandler - You're in My System",
+        "Louie Vega - Elements of Life",
+        "Folamour - Devoted to U"
+      ],
+      "published": true
+    },
+    {
       "id": "pjzee-love-you-rnb-soul-midtempo-groove",
       "title": "Love You",
       "artist": "PJZEE",

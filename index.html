@@ -121,6 +121,7 @@
 }
   </script>
   <style>
+
     :root {
       --bg: #0b0f10;
       --surface: #12181a;
@@ -131,6 +132,9 @@
       --accent: #10b981;
       --accent-dim: rgba(16, 185, 129, 0.14);
     }
+    html {
+      scroll-behavior: smooth;
+    }
     * {
       box-sizing: border-box;
     }
@@ -140,7 +144,7 @@
       background-color: var(--bg);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
-      line-height: 1.65;
+      line-height: 1.68;
     }
     a {
       color: var(--accent);
@@ -149,12 +153,156 @@
     a:hover {
       text-decoration: underline;
     }
+    section[id] {
+      scroll-margin-top: 5rem;
+    }
+    .sticky-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(11, 15, 16, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      text-decoration: none;
+    }
+    .brand:hover {
+      text-decoration: none;
+      opacity: 0.92;
+    }
+    .brand span {
+      color: var(--accent);
+    }
+    .brand .brand-sub {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      display: inline-block;
+    }
+    .topbar-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .nav-link {
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .nav-link:hover {
+      background: var(--surface-alt);
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-pill {
+      margin-left: 0.35rem;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .nav-pill:hover {
+      background: var(--accent);
+      color: #04130e;
+      text-decoration: none;
+    }
+    .audio-embeds {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1.1rem 0 1.25rem;
+    }
+    .player-frame {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+      background: var(--surface-alt);
+    }
+    .player-frame iframe {
+      display: block;
+      width: 100%;
+    }
+    .card-actions, .stream-links, .profile-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.48rem 0.95rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      transition: all 0.16s ease;
+      text-decoration: none;
+    }
+    .icon-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      color: var(--accent);
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+    .icon-btn.btn-primary {
+      background: var(--accent);
+      color: #04130e;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+    .icon-btn.btn-primary:hover {
+      background: #34d399;
+      border-color: #34d399;
+      color: #04130e;
+    }
+    .btn-icon {
+      flex-shrink: 0;
+    }
+
     .container {
       max-width: 980px;
       margin: 0 auto;
-      padding: 2.5rem 1.25rem 4rem;
+      padding: 2rem 1.25rem 4rem;
     }
-    header.hero {
+    section.hero {
       background: var(--surface);
       border: 1px solid var(--border);
       border-top: 4px solid var(--accent);
@@ -208,24 +356,49 @@
       font-size: 0.8rem;
     }
     .profile-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
       margin-top: 1.35rem;
     }
     .crate-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .crate-item {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 1.25rem 1.75rem;
+      padding: 1.15rem 1.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
     }
-    .crate-list li {
-      margin: 0.65rem 0;
+    .crate-item-main {
+      flex: 1 1 420px;
+    }
+    .crate-item-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: #ffffff;
+    }
+    .crate-item-title svg {
+      color: var(--accent);
+    }
+    .crate-item-title:hover {
+      color: var(--accent);
+      text-decoration: none;
     }
     .track-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
     }
@@ -258,7 +431,7 @@
       display: grid;
       grid-template-columns: 220px 1fr;
       gap: 0.5rem 1rem;
-      margin: 0 0 1.25rem;
+      margin: 1rem 0 1.25rem;
       font-size: 0.93rem;
     }
     .meta-grid dt {
@@ -273,37 +446,6 @@
       .meta-grid {
         grid-template-columns: 1fr;
       }
-    }
-    .card-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.65rem;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #04130e;
-      font-weight: 700;
-      padding: 0.45rem 0.95rem;
-      border-radius: 6px;
-      font-size: 0.88rem;
-    }
-    .btn-primary:hover {
-      opacity: 0.92;
-      text-decoration: none;
-    }
-    .btn-outline {
-      background: var(--surface-alt);
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      font-weight: 600;
-      padding: 0.45rem 0.9rem;
-      border-radius: 6px;
-      font-size: 0.88rem;
-    }
-    .btn-outline:hover {
-      background: var(--accent);
-      color: #04130e;
-      text-decoration: none;
     }
     .muted {
       color: var(--muted);
@@ -322,8 +464,22 @@
   </style>
 </head>
 <body>
+  <header class="sticky-topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="https://juizeclubmusic.github.io/">
+        <span class="brand-dot"></span>
+        JUIZE<span>CLUB</span> <span class="brand-sub">// PJZEEE</span>
+      </a>
+      <nav class="topbar-nav" aria-label="Primary Navigation">
+        <a class="nav-link" href="#catalog">Catalog</a>
+        <a class="nav-link" href="#dj-crates">DJ Crates</a>
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-pill" href="https://juizeclubmusic.github.io/llms.txt" title="AI &amp; RAG Knowledge Index">llms.txt</a>
+      </nav>
+    </div>
+  </header>
   <div class="container">
-    <header class="hero">
+    <section class="hero" id="about">
       <h1>PJZEEE &amp; JuizeClub — Official Entity &amp; DJ Crate Hub</h1>
       <p>Independent electronic and soulful music collective, record label, and production project by PJZEEE (PJZEE) and JuizeClub specializing in groove-driven Nu-Disco, Soulful House, Deep House, R&amp;B Soul, Progressive House, and Afrohouse engineered for club sound systems and harmonic DJ sets.</p>
       <div class="badge-row">
@@ -336,26 +492,49 @@
         <span class="badge-outline">Purple Disco Machine</span><span class="badge-outline">Folamour</span><span class="badge-outline">The Shapeshifters</span><span class="badge-outline">Black Coffee</span><span class="badge-outline">Keinemusik</span><span class="badge-outline">Louie Vega</span>
       </div>
       <div class="profile-links">
-        <a class="btn-outline" href="https://open.spotify.com/artist/0PJZEEEJuizeClub" rel="noopener">Spotify Artist Profile</a>
-        <a class="btn-outline" href="https://soundcloud.com/juizeclubmusic" rel="noopener">SoundCloud Profile</a>
-        <a class="btn-outline" href="https://suno.com/@pjzee" rel="noopener">Suno Profile</a>
-        <a class="btn-outline" href="https://juizeclubmusic.github.io/llms.txt">AI Crawler Index (/llms.txt)</a>
-        <a class="btn-outline" href="https://juizeclubmusic.github.io/llms-full.txt">Full RAG Corpus (/llms-full.txt)</a>
+        <a class="icon-btn" href="https://suno.com/@pjzee" target="_blank" rel="noopener"><svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg><span>Suno Profile</span></a>
+        <a class="icon-btn" href="https://open.spotify.com/artist/0PJZEEEJuizeClub" target="_blank" rel="noopener"><svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.563.387-.857.207-2.35-1.434-5.305-1.76-8.786-.963-.335.077-.67-.133-.746-.469-.077-.335.132-.67.469-.746 3.809-.87 7.076-.496 9.713 1.115.293.18.386.563.207.856zm1.224-2.722c-.226.367-.706.482-1.072.257-2.687-1.652-6.785-2.131-9.965-1.166-.413.127-.848-.106-.973-.517-.125-.413.108-.848.52-.973 3.632-1.102 8.147-.568 11.234 1.328.366.226.48.707.256 1.071zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71c-.493.15-1.016-.129-1.166-.623-.148-.495.13-1.016.625-1.166 3.532-1.073 9.404-.866 13.115 1.337.445.264.59.838.327 1.282-.264.443-.838.59-1.283.327z"></path></svg><span>Spotify Artist</span></a>
+        <a class="icon-btn" href="https://soundcloud.com/juizeclubmusic" target="_blank" rel="noopener"><svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg><span>SoundCloud</span></a>
+        <a class="icon-btn" href="https://juizeclubmusic.github.io/llms.txt"><span>AI Index (/llms.txt)</span></a>
+        <a class="icon-btn" href="https://juizeclubmusic.github.io/llms-full.txt"><span>Full RAG Corpus (/llms-full.txt)</span></a>
       </div>
-    </header>
-
-    <section id="crate-guides">
-      <h2>Curated DJ Crate &amp; Harmonic Mixing Guides</h2>
-      <ul class="crate-list">
-        <li>
-          <a href="crates/pjzee-love-you-rnb-soul-midtempo-groove.html"><strong>Best 96 BPM R&amp;B / Soul / Soulful Lounge Tracks for a Sunset Lounge, Warm-Up Soulful R&amp;B &amp; Late-Night Chillout Set (DJ Crate &amp; Harmonic Mixing Guide)</strong></a>
-          <span class="muted"> — Featuring "Love You" by PJZEE (96 BPM, Key 8A)</span>
-        </li>
-      </ul>
     </section>
 
-    <section id="catalog-metadata">
-      <h2>Master Catalog &amp; Plain-Text Track Specifications</h2>
+    <section id="catalog">
+      <h2>Catalog &amp; Interactive Audio Players</h2>
+      <article class="track-card" id="pjzee-youre-my-remastered-122-bpm-deep-soulful-house">
+        <div class="track-header">
+          <div>
+            <h3>You&#x27;re My (Remastered) <span class="artist-tag">by PJZEE</span></h3>
+            <p class="submeta">
+              Label: <strong>JuizeClub</strong> &bull;
+              Release Date: <strong>2026-06-05</strong> &bull;
+              BPM: <strong>122</strong> &bull;
+              Camelot Key: <strong>9A</strong>
+            </p>
+          </div>
+          <span class="bpm-pill">122 BPM &bull; 9A</span>
+        </div>
+        <div class="audio-embeds">
+          <div class="player-frame"><iframe width="100%" height="140" style="border-radius: 12px; border: 1px solid var(--border);" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" src="https://suno.com/embed/d0de9f60-0274-4129-8e6a-4ae29d3fa00c" title="Listen to You&#x27;re My (Remastered) by PJZEE on Suno"></iframe></div>
+        </div>
+        <dl class="meta-grid">
+          <dt>Genres</dt>
+          <dd>Deep House, Soulful House</dd>
+          <dt>DJ Set Context</dt>
+          <dd>Late-Night Deep House Club Session &amp; Sunset Terrace Soulful Blend</dd>
+          <dt>Vibe Notes</dt>
+          <dd>Deep soulful house groove with driving four-on-the-floor kick, syncopated percussion, warm analog bass, lush Rhodes keys, and an intimate contralto vocal.</dd>
+          <dt>Sonic Descriptors</dt>
+          <dd>driving four-on-the-floor kick, syncopated Latin-influenced percussion, warm analog bassline, lush Rhodes electric piano keys, intimate contralto dry vocal glide, subtle melodic guitar licks and airy pads</dd>
+          <dt>Anchor Artist / Track Similarity</dt>
+          <dd>Kerri Chandler - You&#x27;re in My System, Louie Vega - Elements of Life, Folamour - Devoted to U</dd>
+        </dl>
+        <div class="card-actions">
+          <a class="icon-btn btn-primary" href="crates/pjzee-youre-my-remastered-122-bpm-deep-soulful-house.html"><svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg><span>DJ Crate &amp; Harmonic Guide</span></a>
+          <a class="icon-btn btn-suno" href="https://suno.com/song/d0de9f60-0274-4129-8e6a-4ae29d3fa00c" target="_blank" rel="noopener"><svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg><span>Listen on Suno</span></a>
+        </div>
+      </article>
       <article class="track-card" id="pjzee-love-you-rnb-soul-midtempo-groove">
         <div class="track-header">
           <div>
@@ -368,6 +547,9 @@
             </p>
           </div>
           <span class="bpm-pill">96 BPM &bull; 8A</span>
+        </div>
+        <div class="audio-embeds">
+          <div class="player-frame"><iframe width="100%" height="140" style="border-radius: 12px; border: 1px solid var(--border);" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" src="https://suno.com/embed/984aee4f-ff11-4314-bc47-c800bc071900" title="Listen to Love You by PJZEE on Suno"></iframe></div>
         </div>
         <dl class="meta-grid">
           <dt>Genres</dt>
@@ -382,15 +564,42 @@
           <dd>Anderson .Paak - Come Down, Tom Misch - Movie, FKJ &amp; Masego - Tadow</dd>
         </dl>
         <div class="card-actions">
-          <a class="btn-primary" href="crates/pjzee-love-you-rnb-soul-midtempo-groove.html">Read DJ Crate &amp; Harmonic Guide</a>
-          <a class="btn-outline" href="https://suno.com/song/984aee4f-ff11-4314-bc47-c800bc071900" rel="noopener">Suno</a>
+          <a class="icon-btn btn-primary" href="crates/pjzee-love-you-rnb-soul-midtempo-groove.html"><svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg><span>DJ Crate &amp; Harmonic Guide</span></a>
+          <a class="icon-btn btn-suno" href="https://suno.com/song/984aee4f-ff11-4314-bc47-c800bc071900" target="_blank" rel="noopener"><svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg><span>Listen on Suno</span></a>
         </div>
       </article>
+    </section>
+
+    <section id="dj-crates">
+      <h2>Curated DJ Crate &amp; Harmonic Mixing Guides</h2>
+      <ul class="crate-list">
+        <li class="crate-item">
+          <div class="crate-item-main">
+            <a class="crate-item-title" href="crates/pjzee-youre-my-remastered-122-bpm-deep-soulful-house.html"><svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg><span>Best 122 BPM Deep House / Soulful House Tracks for a Late-Night Deep House Club Session &amp; Sunset Terrace Soulful Blend (DJ Crate &amp; Harmonic Mixing Guide)</span></a>
+            <div class="muted" style="font-size: 0.9rem; margin-top: 0.25rem;">
+              Featuring <strong>"You&#x27;re My (Remastered)"</strong> by PJZEE (122 BPM &bull; Camelot 9A)
+            </div>
+          </div>
+          <a class="icon-btn btn-primary" href="crates/pjzee-youre-my-remastered-122-bpm-deep-soulful-house.html">Open Crate Guide &rarr;</a>
+        </li>
+        <li class="crate-item">
+          <div class="crate-item-main">
+            <a class="crate-item-title" href="crates/pjzee-love-you-rnb-soul-midtempo-groove.html"><svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg><span>Best 96 BPM R&amp;B / Soul / Soulful Lounge Tracks for a Sunset Lounge, Warm-Up Soulful R&amp;B &amp; Late-Night Chillout Set (DJ Crate &amp; Harmonic Mixing Guide)</span></a>
+            <div class="muted" style="font-size: 0.9rem; margin-top: 0.25rem;">
+              Featuring <strong>"Love You"</strong> by PJZEE (96 BPM &bull; Camelot 8A)
+            </div>
+          </div>
+          <a class="icon-btn btn-primary" href="crates/pjzee-love-you-rnb-soul-midtempo-groove.html">Open Crate Guide &rarr;</a>
+        </li>
+      </ul>
     </section>
 
     <footer>
       <div>&copy; 2026 JuizeClub Record Label &amp; PJZEEE. All rights reserved.</div>
       <div>
+        <a href="#catalog">Catalog</a> &bull;
+        <a href="#dj-crates">DJ Crates</a> &bull;
+        <a href="#about">About</a> &bull;
         <a href="https://juizeclubmusic.github.io/sitemap.xml">Sitemap</a> &bull;
         <a href="https://juizeclubmusic.github.io/llms.txt">llms.txt</a> &bull;
         <a href="https://juizeclubmusic.github.io/llms-full.txt">llms-full.txt</a>

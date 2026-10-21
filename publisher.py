@@ -14,6 +14,7 @@ import secrets
 import subprocess
 import sys
 import time
+import urllib.parse
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -401,6 +402,325 @@ def build_track_jsonld(track: Dict[str, Any], entity_profile: Dict[str, Any]) ->
     return json.dumps(graph, indent=2, ensure_ascii=False)
 
 
+SVG_SUNO = (
+    '<svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" '
+    'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    '<circle cx="12" cy="12" r="4"></circle>'
+    '<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>'
+    "</svg>"
+)
+
+SVG_SPOTIFY = (
+    '<svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">'
+    '<path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.563.387-.857.207-2.35-1.434-5.305-1.76-8.786-.963-.335.077-.67-.133-.746-.469-.077-.335.132-.67.469-.746 3.809-.87 7.076-.496 9.713 1.115.293.18.386.563.207.856zm1.224-2.722c-.226.367-.706.482-1.072.257-2.687-1.652-6.785-2.131-9.965-1.166-.413.127-.848-.106-.973-.517-.125-.413.108-.848.52-.973 3.632-1.102 8.147-.568 11.234 1.328.366.226.48.707.256 1.071zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71c-.493.15-1.016-.129-1.166-.623-.148-.495.13-1.016.625-1.166 3.532-1.073 9.404-.866 13.115 1.337.445.264.59.838.327 1.282-.264.443-.838.59-1.283.327z"></path>'
+    "</svg>"
+)
+
+SVG_SOUNDCLOUD = (
+    '<svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" '
+    'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>'
+    "</svg>"
+)
+
+SVG_CRATE = (
+    '<svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" '
+    'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    '<circle cx="12" cy="12" r="10"></circle>'
+    '<circle cx="12" cy="12" r="3"></circle>'
+    "</svg>"
+)
+
+
+def build_audio_embeds_html(track: Dict[str, Any]) -> str:
+    """
+    Builds responsive embedded iframe audio players for Suno, Spotify, and
+    SoundCloud when the respective URLs are present on a track.
+    """
+    embeds: List[str] = []
+    title_escaped = html.escape(f"{track.get('title', 'Track')} by {track.get('artist', 'PJZEEE')}")
+
+    suno_url = (track.get("suno_url") or "").strip()
+    if suno_url:
+        suno_match = re.search(r"suno\.com/(?:song|embed)/([a-zA-Z0-9-]+)", suno_url)
+        if suno_match:
+            suno_id = suno_match.group(1)
+            embed_src = f"https://suno.com/embed/{html.escape(suno_id)}"
+            embeds.append(
+                f'<div class="player-frame">'
+                f'<iframe width="100%" height="140" style="border-radius: 12px; border: 1px solid var(--border);" '
+                f'frameborder="0" allowfullscreen '
+                f'allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" '
+                f'loading="lazy" src="{embed_src}" title="Listen to {title_escaped} on Suno"></iframe>'
+                f"</div>"
+            )
+
+    spotify_url = (track.get("spotify_url") or "").strip()
+    if spotify_url:
+        sp_match = re.search(r"open\.spotify\.com/(track|album|playlist)/([a-zA-Z0-9]+)", spotify_url)
+        if sp_match:
+            sp_type, sp_id = sp_match.group(1), sp_match.group(2)
+            embed_src = f"https://open.spotify.com/embed/{sp_type}/{html.escape(sp_id)}?utm_source=generator&theme=0"
+            embeds.append(
+                f'<div class="player-frame">'
+                f'<iframe width="100%" height="152" style="border-radius: 12px; border: 1px solid var(--border);" '
+                f'frameborder="0" allowfullscreen '
+                f'allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" '
+                f'loading="lazy" src="{embed_src}" title="Listen to {title_escaped} on Spotify"></iframe>'
+                f"</div>"
+            )
+
+    soundcloud_url = (track.get("soundcloud_url") or "").strip()
+    if soundcloud_url:
+        encoded_sc = urllib.parse.quote(soundcloud_url, safe="")
+        embed_src = (
+            f"https://w.soundcloud.com/player/?url={encoded_sc}"
+            "&color=%2310b981&auto_play=false&hide_related=true"
+            "&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
+        )
+        embeds.append(
+            f'<div class="player-frame">'
+            f'<iframe width="100%" height="166" style="border-radius: 12px; border: 1px solid var(--border);" '
+            f'scrolling="no" frameborder="no" allow="autoplay" '
+            f'loading="lazy" src="{embed_src}" title="Listen to {title_escaped} on SoundCloud"></iframe>'
+            f"</div>"
+        )
+
+    if not embeds:
+        return ""
+    return '<div class="audio-embeds">\n          ' + "\n          ".join(embeds) + "\n        </div>"
+
+
+def build_stream_buttons_html(
+    track: Dict[str, Any],
+    crate_rel_url: Optional[str] = None,
+) -> str:
+    """
+    Renders clean icon buttons for Crate Guide, Suno, Spotify, and SoundCloud.
+    """
+    buttons: List[str] = []
+    if crate_rel_url:
+        buttons.append(
+            f'<a class="icon-btn btn-primary" href="{html.escape(crate_rel_url)}">'
+            f"{SVG_CRATE}<span>DJ Crate &amp; Harmonic Guide</span></a>"
+        )
+    if track.get("suno_url"):
+        buttons.append(
+            f'<a class="icon-btn btn-suno" href="{html.escape(track["suno_url"])}" target="_blank" rel="noopener">'
+            f"{SVG_SUNO}<span>Listen on Suno</span></a>"
+        )
+    if track.get("spotify_url"):
+        buttons.append(
+            f'<a class="icon-btn btn-spotify" href="{html.escape(track["spotify_url"])}" target="_blank" rel="noopener">'
+            f"{SVG_SPOTIFY}<span>Spotify</span></a>"
+        )
+    if track.get("soundcloud_url"):
+        buttons.append(
+            f'<a class="icon-btn btn-soundcloud" href="{html.escape(track["soundcloud_url"])}" target="_blank" rel="noopener">'
+            f"{SVG_SOUNDCLOUD}<span>SoundCloud</span></a>"
+        )
+    return "\n          ".join(buttons)
+
+
+def build_sticky_nav_html(is_root: bool = True) -> str:
+    """
+    Builds a sticky top navigation bar with Catalog, DJ Crates, and About links.
+    """
+    prefix = "" if is_root else f"{DOMAIN}/"
+    return f"""  <header class="sticky-topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="{DOMAIN}/">
+        <span class="brand-dot"></span>
+        JUIZE<span>CLUB</span> <span class="brand-sub">// PJZEEE</span>
+      </a>
+      <nav class="topbar-nav" aria-label="Primary Navigation">
+        <a class="nav-link" href="{prefix}#catalog">Catalog</a>
+        <a class="nav-link" href="{prefix}#dj-crates">DJ Crates</a>
+        <a class="nav-link" href="{prefix}#about">About</a>
+        <a class="nav-pill" href="{DOMAIN}/llms.txt" title="AI &amp; RAG Knowledge Index">llms.txt</a>
+      </nav>
+    </div>
+  </header>"""
+
+
+SHARED_UI_CSS = """
+    :root {
+      --bg: #0b0f10;
+      --surface: #12181a;
+      --surface-alt: #161f22;
+      --border: #1f2d31;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #10b981;
+      --accent-dim: rgba(16, 185, 129, 0.14);
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      line-height: 1.68;
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    section[id] {
+      scroll-margin-top: 5rem;
+    }
+    .sticky-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(11, 15, 16, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      text-decoration: none;
+    }
+    .brand:hover {
+      text-decoration: none;
+      opacity: 0.92;
+    }
+    .brand span {
+      color: var(--accent);
+    }
+    .brand .brand-sub {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      display: inline-block;
+    }
+    .topbar-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .nav-link {
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .nav-link:hover {
+      background: var(--surface-alt);
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-pill {
+      margin-left: 0.35rem;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .nav-pill:hover {
+      background: var(--accent);
+      color: #04130e;
+      text-decoration: none;
+    }
+    .audio-embeds {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1.1rem 0 1.25rem;
+    }
+    .player-frame {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+      background: var(--surface-alt);
+    }
+    .player-frame iframe {
+      display: block;
+      width: 100%;
+    }
+    .card-actions, .stream-links, .profile-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.48rem 0.95rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      transition: all 0.16s ease;
+      text-decoration: none;
+    }
+    .icon-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      color: var(--accent);
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+    .icon-btn.btn-primary {
+      background: var(--accent);
+      color: #04130e;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+    .icon-btn.btn-primary:hover {
+      background: #34d399;
+      border-color: #34d399;
+      color: #04130e;
+    }
+    .btn-icon {
+      flex-shrink: 0;
+    }
+"""
+
+
 def render_crate_page(
     track: Dict[str, Any],
     entity_profile: Dict[str, Any],
@@ -408,8 +728,8 @@ def render_crate_page(
 ) -> str:
     """
     Wraps the generated article in a clean, dark-mode responsive HTML5 template
-    (#0b0f10 background, #10b981 emerald accents) and injects the Schema.org
-    @graph JSON-LD block in <head>.
+    (#0b0f10 background, #10b981 emerald accents) with sticky top navigation,
+    embedded audio players, and Schema.org @graph JSON-LD block in <head>.
     """
     genres_str = " / ".join(track.get("genre", []))
     page_title = (
@@ -425,20 +745,9 @@ def render_crate_page(
     jsonld_str = build_track_jsonld(track, entity_profile)
     canonical_url = f"{DOMAIN}/crates/{track['id']}.html"
 
-    stream_btns: List[str] = []
-    if track.get("spotify_url"):
-        stream_btns.append(
-            f'<a class="stream-btn" href="{html.escape(track["spotify_url"])}" rel="noopener">Spotify</a>'
-        )
-    if track.get("soundcloud_url"):
-        stream_btns.append(
-            f'<a class="stream-btn" href="{html.escape(track["soundcloud_url"])}" rel="noopener">SoundCloud</a>'
-        )
-    if track.get("suno_url"):
-        stream_btns.append(
-            f'<a class="stream-btn" href="{html.escape(track["suno_url"])}" rel="noopener">Suno</a>'
-        )
-    stream_btns_html = "\n        ".join(stream_btns)
+    sticky_nav_html = build_sticky_nav_html(is_root=False)
+    audio_embeds_html = build_audio_embeds_html(track)
+    stream_btns_html = build_stream_buttons_html(track, crate_rel_url=None)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -456,63 +765,17 @@ def render_crate_page(
 {jsonld_str}
   </script>
   <style>
-    :root {{
-      --bg: #0b0f10;
-      --surface: #12181a;
-      --surface-alt: #161f22;
-      --border: #1f2d31;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --accent: #10b981;
-      --accent-dim: rgba(16, 185, 129, 0.14);
-    }}
-    * {{
-      box-sizing: border-box;
-    }}
-    body {{
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
-      line-height: 1.7;
-    }}
-    a {{
-      color: var(--accent);
-      text-decoration: none;
-    }}
-    a:hover {{
-      text-decoration: underline;
-    }}
+{SHARED_UI_CSS}
     .container {{
       max-width: 920px;
       margin: 0 auto;
       padding: 2rem 1.25rem 4rem;
     }}
-    header.site-nav {{
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      padding-bottom: 1.25rem;
-      margin-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-    }}
-    .brand {{
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: 0.04em;
-      color: var(--text);
-    }}
-    .brand span {{
-      color: var(--accent);
-    }}
     .meta-strip {{
       display: flex;
       flex-wrap: wrap;
       gap: 0.6rem;
-      margin-bottom: 1.75rem;
+      margin-bottom: 1.5rem;
     }}
     .badge {{
       background: var(--accent-dim);
@@ -527,30 +790,16 @@ def render_crate_page(
       background: var(--surface);
       border: 1px solid var(--border);
       border-left: 4px solid var(--accent);
-      border-radius: 10px;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 2rem;
+      border-radius: 12px;
+      padding: 1.35rem 1.5rem;
+      margin-bottom: 2.25rem;
     }}
-    .stream-links {{
+    .track-hero-header {{
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
       gap: 0.75rem;
-      margin-top: 0.85rem;
-    }}
-    .stream-btn {{
-      display: inline-block;
-      background: var(--surface-alt);
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      padding: 0.4rem 0.9rem;
-      border-radius: 6px;
-      font-size: 0.88rem;
-      font-weight: 600;
-    }}
-    .stream-btn:hover {{
-      background: var(--accent);
-      color: #05110d;
-      text-decoration: none;
     }}
     h1, h2, h3 {{
       color: #ffffff;
@@ -611,16 +860,8 @@ def render_crate_page(
   </style>
 </head>
 <body>
+{sticky_nav_html}
   <div class="container">
-    <header class="site-nav">
-      <a class="brand" href="{DOMAIN}/">JUIZE<span>CLUB</span> // PJZEEE GEO HUB</a>
-      <nav>
-        <a href="{DOMAIN}/">Entity Hub</a> &nbsp;&bull;&nbsp;
-        <a href="{DOMAIN}/llms.txt">llms.txt</a> &nbsp;&bull;&nbsp;
-        <a href="{DOMAIN}/llms-full.txt">llms-full.txt</a>
-      </nav>
-    </header>
-
     <div class="meta-strip">
       <span class="badge">{html.escape(track['artist'])}</span>
       <span class="badge">{track['bpm']} BPM</span>
@@ -630,12 +871,19 @@ def render_crate_page(
     </div>
 
     <aside class="track-hero-card">
-      <strong>Featured Catalog Release:</strong> {html.escape(track['title'])} by {html.escape(track['artist'])} ({track['bpm']} BPM, Key {html.escape(track['camelot_key'])}, Released {html.escape(track['release_date'])})
-      <div style="color: var(--muted); font-size: 0.93rem; margin-top: 0.35rem;">
+      <div class="track-hero-header">
+        <div>
+          <strong>Featured Release:</strong> {html.escape(track['title'])} by {html.escape(track['artist'])}
+          <span style="color: var(--muted); font-size: 0.9rem;"> &bull; {track['bpm']} BPM &bull; Key {html.escape(track['camelot_key'])} &bull; {html.escape(track['release_date'])}</span>
+        </div>
+      </div>
+      <div style="color: var(--muted); font-size: 0.93rem; margin-top: 0.4rem;">
         {html.escape(track.get('vibe_notes', ''))}
       </div>
-      <div class="stream-links">
+      {audio_embeds_html}
+      <div class="stream-links" style="margin-top: 0.85rem;">
         {stream_btns_html}
+        <a class="icon-btn" href="{DOMAIN}/#catalog">&larr; Back to Catalog</a>
       </div>
     </aside>
 
@@ -731,26 +979,19 @@ def build_index_html(catalog: Dict[str, Any]) -> None:
         )
 
         crate_links_html.append(
-            f"""        <li>
-          <a href="{html.escape(crate_rel_url)}"><strong>{html.escape(crate_title)}</strong></a>
-          <span class="muted"> — Featuring "{html.escape(track['title'])}" by {html.escape(track['artist'])} ({track['bpm']} BPM, Key {html.escape(track['camelot_key'])})</span>
+            f"""        <li class="crate-item">
+          <div class="crate-item-main">
+            <a class="crate-item-title" href="{html.escape(crate_rel_url)}">{SVG_CRATE}<span>{html.escape(crate_title)}</span></a>
+            <div class="muted" style="font-size: 0.9rem; margin-top: 0.25rem;">
+              Featuring <strong>"{html.escape(track['title'])}"</strong> by {html.escape(track['artist'])} ({track['bpm']} BPM &bull; Camelot {html.escape(track['camelot_key'])})
+            </div>
+          </div>
+          <a class="icon-btn btn-primary" href="{html.escape(crate_rel_url)}">Open Crate Guide &rarr;</a>
         </li>"""
         )
 
-        card_stream_btns: List[str] = []
-        if track.get("spotify_url"):
-            card_stream_btns.append(
-                f'<a class="btn-outline" href="{html.escape(track["spotify_url"])}" rel="noopener">Spotify</a>'
-            )
-        if track.get("soundcloud_url"):
-            card_stream_btns.append(
-                f'<a class="btn-outline" href="{html.escape(track["soundcloud_url"])}" rel="noopener">SoundCloud</a>'
-            )
-        if track.get("suno_url"):
-            card_stream_btns.append(
-                f'<a class="btn-outline" href="{html.escape(track["suno_url"])}" rel="noopener">Suno</a>'
-            )
-        card_stream_btns_html = "\n          ".join(card_stream_btns)
+        audio_embeds_html = build_audio_embeds_html(track)
+        card_stream_btns_html = build_stream_buttons_html(track, crate_rel_url=crate_rel_url)
 
         track_cards_html.append(
             f"""      <article class="track-card" id="{html.escape(track['id'])}">
@@ -766,6 +1007,7 @@ def build_index_html(catalog: Dict[str, Any]) -> None:
           </div>
           <span class="bpm-pill">{track['bpm']} BPM &bull; {html.escape(track['camelot_key'])}</span>
         </div>
+        {audio_embeds_html}
         <dl class="meta-grid">
           <dt>Genres</dt>
           <dd>{html.escape(genres_str)}</dd>
@@ -779,7 +1021,6 @@ def build_index_html(catalog: Dict[str, Any]) -> None:
           <dd>{html.escape(anchors_str)}</dd>
         </dl>
         <div class="card-actions">
-          <a class="btn-primary" href="{html.escape(crate_rel_url)}">Read DJ Crate &amp; Harmonic Guide</a>
           {card_stream_btns_html}
         </div>
       </article>"""
@@ -793,6 +1034,31 @@ def build_index_html(catalog: Dict[str, Any]) -> None:
         for a in entity.get("benchmark_anchor_artists", [])
     )
 
+    profile_btns: List[str] = []
+    if official_urls.get("suno_profile_url"):
+        profile_btns.append(
+            f'<a class="icon-btn" href="{html.escape(official_urls["suno_profile_url"])}" target="_blank" rel="noopener">'
+            f"{SVG_SUNO}<span>Suno Profile</span></a>"
+        )
+    if official_urls.get("spotify_artist_url"):
+        profile_btns.append(
+            f'<a class="icon-btn" href="{html.escape(official_urls["spotify_artist_url"])}" target="_blank" rel="noopener">'
+            f"{SVG_SPOTIFY}<span>Spotify Artist</span></a>"
+        )
+    if official_urls.get("soundcloud_profile_url"):
+        profile_btns.append(
+            f'<a class="icon-btn" href="{html.escape(official_urls["soundcloud_profile_url"])}" target="_blank" rel="noopener">'
+            f"{SVG_SOUNDCLOUD}<span>SoundCloud</span></a>"
+        )
+    profile_btns.append(
+        f'<a class="icon-btn" href="{DOMAIN}/llms.txt"><span>AI Index (/llms.txt)</span></a>'
+    )
+    profile_btns.append(
+        f'<a class="icon-btn" href="{DOMAIN}/llms-full.txt"><span>Full RAG Corpus (/llms-full.txt)</span></a>'
+    )
+    profile_btns_html = "\n        ".join(profile_btns)
+    sticky_nav_html = build_sticky_nav_html(is_root=True)
+
     index_content = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -805,40 +1071,13 @@ def build_index_html(catalog: Dict[str, Any]) -> None:
 {jsonld_str}
   </script>
   <style>
-    :root {{
-      --bg: #0b0f10;
-      --surface: #12181a;
-      --surface-alt: #161f22;
-      --border: #1f2d31;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --accent: #10b981;
-      --accent-dim: rgba(16, 185, 129, 0.14);
-    }}
-    * {{
-      box-sizing: border-box;
-    }}
-    body {{
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
-      line-height: 1.65;
-    }}
-    a {{
-      color: var(--accent);
-      text-decoration: none;
-    }}
-    a:hover {{
-      text-decoration: underline;
-    }}
+{SHARED_UI_CSS}
     .container {{
       max-width: 980px;
       margin: 0 auto;
-      padding: 2.5rem 1.25rem 4rem;
+      padding: 2rem 1.25rem 4rem;
     }}
-    header.hero {{
+    section.hero {{
       background: var(--surface);
       border: 1px solid var(--border);
       border-top: 4px solid var(--accent);
@@ -892,24 +1131,49 @@ def build_index_html(catalog: Dict[str, Any]) -> None:
       font-size: 0.8rem;
     }}
     .profile-links {{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
       margin-top: 1.35rem;
     }}
     .crate-list {{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }}
+    .crate-item {{
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 1.25rem 1.75rem;
+      padding: 1.15rem 1.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
     }}
-    .crate-list li {{
-      margin: 0.65rem 0;
+    .crate-item-main {{
+      flex: 1 1 420px;
+    }}
+    .crate-item-title {{
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: #ffffff;
+    }}
+    .crate-item-title svg {{
+      color: var(--accent);
+    }}
+    .crate-item-title:hover {{
+      color: var(--accent);
+      text-decoration: none;
     }}
     .track-card {{
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
     }}
@@ -942,7 +1206,7 @@ def build_index_html(catalog: Dict[str, Any]) -> None:
       display: grid;
       grid-template-columns: 220px 1fr;
       gap: 0.5rem 1rem;
-      margin: 0 0 1.25rem;
+      margin: 1rem 0 1.25rem;
       font-size: 0.93rem;
     }}
     .meta-grid dt {{
@@ -957,37 +1221,6 @@ def build_index_html(catalog: Dict[str, Any]) -> None:
       .meta-grid {{
         grid-template-columns: 1fr;
       }}
-    }}
-    .card-actions {{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.65rem;
-    }}
-    .btn-primary {{
-      background: var(--accent);
-      color: #04130e;
-      font-weight: 700;
-      padding: 0.45rem 0.95rem;
-      border-radius: 6px;
-      font-size: 0.88rem;
-    }}
-    .btn-primary:hover {{
-      opacity: 0.92;
-      text-decoration: none;
-    }}
-    .btn-outline {{
-      background: var(--surface-alt);
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      font-weight: 600;
-      padding: 0.45rem 0.9rem;
-      border-radius: 6px;
-      font-size: 0.88rem;
-    }}
-    .btn-outline:hover {{
-      background: var(--accent);
-      color: #04130e;
-      text-decoration: none;
     }}
     .muted {{
       color: var(--muted);
@@ -1006,8 +1239,9 @@ def build_index_html(catalog: Dict[str, Any]) -> None:
   </style>
 </head>
 <body>
+{sticky_nav_html}
   <div class="container">
-    <header class="hero">
+    <section class="hero" id="about">
       <h1>PJZEEE &amp; JuizeClub — Official Entity &amp; DJ Crate Hub</h1>
       <p>{html.escape(entity.get('description', ''))}</p>
       <div class="badge-row">
@@ -1020,29 +1254,28 @@ def build_index_html(catalog: Dict[str, Any]) -> None:
         {anchor_badges}
       </div>
       <div class="profile-links">
-        <a class="btn-outline" href="{html.escape(official_urls.get('spotify_artist_url', '#'))}" rel="noopener">Spotify Artist Profile</a>
-        <a class="btn-outline" href="{html.escape(official_urls.get('soundcloud_profile_url', '#'))}" rel="noopener">SoundCloud Profile</a>
-        <a class="btn-outline" href="{html.escape(official_urls.get('suno_profile_url', '#'))}" rel="noopener">Suno Profile</a>
-        <a class="btn-outline" href="{DOMAIN}/llms.txt">AI Crawler Index (/llms.txt)</a>
-        <a class="btn-outline" href="{DOMAIN}/llms-full.txt">Full RAG Corpus (/llms-full.txt)</a>
+        {profile_btns_html}
       </div>
-    </header>
+    </section>
 
-    <section id="crate-guides">
+    <section id="catalog">
+      <h2>Catalog &amp; Interactive Audio Players</h2>
+{chr(10).join(track_cards_html)}
+    </section>
+
+    <section id="dj-crates">
       <h2>Curated DJ Crate &amp; Harmonic Mixing Guides</h2>
       <ul class="crate-list">
 {chr(10).join(crate_links_html)}
       </ul>
     </section>
 
-    <section id="catalog-metadata">
-      <h2>Master Catalog &amp; Plain-Text Track Specifications</h2>
-{chr(10).join(track_cards_html)}
-    </section>
-
     <footer>
       <div>&copy; {datetime.date.today().year} JuizeClub Record Label &amp; PJZEEE. All rights reserved.</div>
       <div>
+        <a href="#catalog">Catalog</a> &bull;
+        <a href="#dj-crates">DJ Crates</a> &bull;
+        <a href="#about">About</a> &bull;
         <a href="{DOMAIN}/sitemap.xml">Sitemap</a> &bull;
         <a href="{DOMAIN}/llms.txt">llms.txt</a> &bull;
         <a href="{DOMAIN}/llms-full.txt">llms-full.txt</a>
@@ -1308,6 +1541,20 @@ def main(argv: Optional[List[str]] = None) -> int:
             updated_crate_urls.append(f"{DOMAIN}/crates/{track_id}.html")
     else:
         print("[Catalog] No unpublished tracks found (use --rebuild-all to regenerate all tracks).")
+
+    # Refresh layout/player/nav wrapper on already-published crate pages without re-calling Gemini
+    for track in tracks:
+        if track in tracks_to_process:
+            continue
+        crate_path = CRATES_DIR / f"{track['id']}.html"
+        if crate_path.exists():
+            existing_html = crate_path.read_text(encoding="utf-8")
+            main_match = re.search(r"<main>(.*?)</main>", existing_html, flags=re.DOTALL | re.IGNORECASE)
+            if main_match:
+                article_body = main_match.group(1).strip()
+                refreshed_html = render_crate_page(track, entity_profile, article_body)
+                crate_path.write_text(refreshed_html, encoding="utf-8")
+                print(f"[Build] Refreshed UI template for crates/{crate_path.name}")
 
     build_index_html(catalog)
     build_llms_files(catalog)

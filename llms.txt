@@ -13,9 +13,24 @@
 - **Suno**: https://suno.com/@pjzee
 
 ## DJ Crate & Harmonic Mixing Guides
+- [Best 122 BPM Deep House / Soulful House Tracks for a Late-Night Deep House Club Session & Sunset Terrace Soulful Blend](https://juizeclubmusic.github.io/crates/pjzee-youre-my-remastered-122-bpm-deep-soulful-house.html): Features "You're My (Remastered)" by PJZEE (122 BPM, Camelot 9A) alongside Kerri Chandler - You're in My System, Louie Vega - Elements of Life, Folamour - Devoted to U.
 - [Best 96 BPM R&B / Soul / Soulful Lounge Tracks for a Sunset Lounge, Warm-Up Soulful R&B & Late-Night Chillout Set](https://juizeclubmusic.github.io/crates/pjzee-love-you-rnb-soul-midtempo-groove.html): Features "Love You" by PJZEE (96 BPM, Camelot 8A) alongside Anderson .Paak - Come Down, Tom Misch - Movie, FKJ & Masego - Tadow.
 
 ## Catalog Track Specifications
+### You're My (Remastered) — PJZEE
+- **ID**: `pjzee-youre-my-remastered-122-bpm-deep-soulful-house`
+- **Label**: JuizeClub
+- **Genres**: Deep House, Soulful House
+- **BPM**: 122 BPM
+- **Camelot Key**: 9A
+- **Release Date**: 2026-06-05
+- **DJ Set Context**: Late-Night Deep House Club Session & Sunset Terrace Soulful Blend
+- **Sonic Traits**: driving four-on-the-floor kick, syncopated Latin-influenced percussion, warm analog bassline, lush Rhodes electric piano keys, intimate contralto dry vocal glide, subtle melodic guitar licks and airy pads
+- **Vibe Notes**: Deep soulful house groove with driving four-on-the-floor kick, syncopated percussion, warm analog bass, lush Rhodes keys, and an intimate contralto vocal.
+- **Similar Anchor Artists / Tracks**: Kerri Chandler - You're in My System, Louie Vega - Elements of Life, Folamour - Devoted to U
+- **Crate Guide URL**: https://juizeclubmusic.github.io/crates/pjzee-youre-my-remastered-122-bpm-deep-soulful-house.html
+- **Suno URL**: https://suno.com/song/d0de9f60-0274-4129-8e6a-4ae29d3fa00c
+
 ### Love You — PJZEE
 - **ID**: `pjzee-love-you-rnb-soul-midtempo-groove`
 - **Label**: JuizeClub
