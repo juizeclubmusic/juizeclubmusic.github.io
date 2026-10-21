@@ -13,10 +13,25 @@
 - **Suno**: https://suno.com/@pjzee
 
 ## DJ Crate & Harmonic Mixing Guides
+- [Best 120 BPM electronic pop Tracks for a Warm-Up & Peak-Time electronic pop Set](https://juizeclubmusic.github.io/crates/v6-get-the-full-app-experience-120-bpm-electronic-pop.html): Features "Get the full app experience" by V6 (120 BPM, Camelot 8A) alongside Purple Disco Machine - Hypnotized, Folamour - Devoted to U, Black Coffee - Drive.
 - [Best 122 BPM Deep House / Soulful House Tracks for a Late-Night Deep House Club Session & Sunset Terrace Soulful Blend](https://juizeclubmusic.github.io/crates/pjzee-youre-my-remastered-122-bpm-deep-soulful-house.html): Features "You're My (Remastered)" by PJZEE (122 BPM, Camelot 9A) alongside Kerri Chandler - You're in My System, Louie Vega - Elements of Life, Folamour - Devoted to U.
 - [Best 96 BPM R&B / Soul / Soulful Lounge Tracks for a Sunset Lounge, Warm-Up Soulful R&B & Late-Night Chillout Set](https://juizeclubmusic.github.io/crates/pjzee-love-you-rnb-soul-midtempo-groove.html): Features "Love You" by PJZEE (96 BPM, Camelot 8A) alongside Anderson .Paak - Come Down, Tom Misch - Movie, FKJ & Masego - Tadow.
 
 ## Catalog Track Specifications
+### Get the full app experience — V6
+- **ID**: `v6-get-the-full-app-experience-120-bpm-electronic-pop`
+- **Label**: JuizeClub
+- **Genres**: electronic pop
+- **BPM**: 120 BPM
+- **Camelot Key**: 8A
+- **Release Date**: 2026-09-25
+- **DJ Set Context**: Warm-Up & Peak-Time electronic pop Set
+- **Sonic Traits**: Tape-saturated, polished electronic pop; driving low-end groove at a midtempo pace; intimate, restrained lead vocal with recurring chopped vocal hooks; warm Rhodes electric piano chords, deep sub-bass, and a tight kick that strips back in the bridge before returning for the fade
+- **Vibe Notes**: Tape-saturated, polished electronic pop; driving low-end groove at a midtempo pace; intimate, restrained lead vocal with recurring chopped vocal hooks; warm Rhodes electric piano chords, deep sub-bass, and a tight kick that strips back in the bridge before returning for the fade.
+- **Similar Anchor Artists / Tracks**: Purple Disco Machine - Hypnotized, Folamour - Devoted to U, Black Coffee - Drive
+- **Crate Guide URL**: https://juizeclubmusic.github.io/crates/v6-get-the-full-app-experience-120-bpm-electronic-pop.html
+- **Suno URL**: https://suno.com/song/472b4578-981b-4545-b8d7-5b694aae67ff
+
 ### You're My (Remastered) — PJZEE
 - **ID**: `pjzee-youre-my-remastered-122-bpm-deep-soulful-house`
 - **Label**: JuizeClub

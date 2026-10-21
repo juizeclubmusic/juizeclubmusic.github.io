@@ -34,6 +34,36 @@
   },
   "tracks": [
     {
+      "id": "v6-get-the-full-app-experience-120-bpm-electronic-pop",
+      "title": "Get the full app experience",
+      "artist": "V6",
+      "label": "JuizeClub",
+      "genre": [
+        "electronic pop"
+      ],
+      "bpm": 120,
+      "camelot_key": "8A",
+      "release_date": "2026-09-25",
+      "spotify_url": "",
+      "soundcloud_url": "",
+      "suno_url": "https://suno.com/song/472b4578-981b-4545-b8d7-5b694aae67ff",
+      "vibe_notes": "Tape-saturated, polished electronic pop; driving low-end groove at a midtempo pace; intimate, restrained lead vocal with recurring chopped vocal hooks; warm Rhodes electric piano chords, deep sub-bass, and a tight kick that strips back in the bridge before returning for the fade.",
+      "sonic_descriptors": [
+        "Tape-saturated",
+        "polished electronic pop; driving low-end groove at a midtempo pace; intimate",
+        "restrained lead vocal with recurring chopped vocal hooks; warm Rhodes electric piano chords",
+        "deep sub-bass",
+        "and a tight kick that strips back in the bridge before returning for the fade"
+      ],
+      "dj_set_context": "Warm-Up & Peak-Time electronic pop Set",
+      "anchor_artists": [
+        "Purple Disco Machine - Hypnotized",
+        "Folamour - Devoted to U",
+        "Black Coffee - Drive"
+      ],
+      "published": true
+    },
+    {
       "id": "pjzee-youre-my-remastered-122-bpm-deep-soulful-house",
       "title": "You're My (Remastered)",
       "artist": "PJZEE",
